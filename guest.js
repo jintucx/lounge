@@ -15,23 +15,91 @@ $(function () {
       // var file = myInput.files[0];
   // alert("sf");
   var formData = new FormData();
-  debugger
+ 
   formData.append("file", myInput.files[0]);
     
-		$.ajax({
-			url: 'https://theloungeapp.azurewebsites.net/accessdata/barcode',
-			data: formData,
-			processData: false,
-			contentType: false,
-			mimeType: "multipart/form-data",
-			type: 'POST',
-		
-			success: function (data) {
-			alert("hi")
-			},
-			error: function (xhr, textStatus, error) {}
-		});
+  $.ajax({
+    url: 'https://theloungeapp.azurewebsites.net/accessdata/barcode',
+    data: formData,
+    processData: false,
+    contentType: false,
+    mimeType: "multipart/form-data",
+    type: 'POST',
 
+    success: function (data) {
+
+      console.log(data.ResultData)
+      let rd = JSON.parse(data);
+      result = rd.ResultData;
+      alert("result")
+      let name = result.substr(2, 20).trim();
+      let noofitem = result.substr(1, 1);
+      let pnr = result.substr(23, 7);
+      document.getElementById("submitguest").disabled = false;
+      if (noofitem == 2) {
+        flight1 = result.split(pnr)[1];
+        flight2 = result.split(pnr)[2];
+
+        $("#inputLastname").val(name.split('/')[0]);
+        $("#inputFirstname").val(name.split('/')[1]);
+        $("#inputPnr").val(result.substr(23, 7));
+
+        $("#inputDeparture").val(result.substr(30, 3));
+        $("#inputTransit").val(result.substr(33, 3));
+
+        $("#inputArrival").val(flight2.substr(3, 3));
+        document.getElementById("seat2").style.display = "block";
+        $("#inputSeat2").val(flight2.substr(18, 4).replace(/^0+/, ''));
+        //  carrier
+        $("#inputFFT").val(result.substr(36, 3).trim());
+        $("#inputFlight").val(result.substr(39, 5).trim().replace(/^0+/, ''));
+
+        let   date=result.substr(44, 3);
+        let  day=moment().dayOfYear(date);
+        $('#calenderguest span').html(day.format('DD/MM/YYYY'));
+        var temp1 = day.format('MM-DD-YYYY');
+        var temp2 = new Date(temp1);
+        var startDt = temp2.toISOString();
+        document.querySelector('#dateiso').value = startDt;
+     
+         console.log(date, "date");
+        // cabin
+        $("#cabin").val(result.substr(47, 1));
+        $("#inputSeat").val(result.substr(48, 4).replace(/^0+/, ''));
+        scannedprim = true;
+      }
+
+      else 
+      {
+        document.getElementById("seat2guest").style.display = "none";
+        $("#lastName").val(name.split('/')[0]);
+        $("#firstName").val(name.split('/')[1]);
+        $("#pnr").val(result.substr(23, 7));
+        $("#from").val(result.substr(30, 3));
+        $("#to").val(result.substr(33, 3));
+        //  carrier
+        $("#carrierguest").val(result.substr(36, 3).trim());
+        $("#flightNumber").val(result.substr(39, 5).trim().replace(/^0+/, ''));
+
+        let   date=result.substr(44, 3);
+        let  day=moment().dayOfYear(date);
+        $('#calenderguest span').html(day.format('DD/MM/YYYY'));
+        var temp1 = day.format('MM-DD-YYYY');
+        var temp2 = new Date(temp1);
+        var startDt = temp2.toISOString();
+        document.querySelector('#dateiso').value = startDt;
+
+        $("#cabin").val(result.substr(47, 1));
+        $("#seatguest").val(result.substr(48, 4).replace(/^0+/, ''));
+        $("#cabinguest").val(result.substr(137, 16));
+       
+        scannedprim = true;
+      }
+    },
+    error: function (xhr, textStatus, error) {
+      alert("error2 " + xhr.responseText);
+    }
+  });
 
   }
   
@@ -140,7 +208,7 @@ function saveFormGuest(event) {
   project.pnr =$("#pnr").val();;
   project.carrier = $("#carrierguest").val();;
   project.flightNumber =$("#flightNumber").val();;
-  project.flightDate = 
+  project.flightDate =  document.querySelector('#dateiso').value ;
   project.from = $("#from").val();
   project.to = $("#to").val();
   project.transit =  $("#transitguest").val();

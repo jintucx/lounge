@@ -42,7 +42,7 @@ $(document).ready(function () {
   });
 
 
-  
+
   var currentPageURL = decodeURIComponent(window.location.search.substring(1));
   var queryString = currentPageURL.split("&");
   lounge = queryString[0].split("=")[1];
@@ -97,37 +97,37 @@ function thisFileUpload() {
   document.getElementById("upload").click();
 };
 
-function goLounge(){
-  window.location.href="login.html"
+function goLounge() {
+  window.location.href = "login.html"
 }
 
 $(function () {
   $("#upload").change(function (e) {
-      let photoupload = document.getElementById("upload").files[0];
-      var formData = new FormData();
-      formData.append("file", photoupload);
-      alert("upload");
-  
+    let photoupload = document.getElementById("upload").files[0];
+    var formData = new FormData();
+    formData.append("file", photoupload);
+
+
     // result="M2SMITH/RICHARD KBWXGA YVRYYZK0 0720 087Y004A0001 14A>3181OR0087BK0 29 01 K0 4312637 KBWXGA YYZMIAK0 1140 088Y004A0001 12929 01 K0 4312637";
-   
-  //   let name=result.substr(2, 20).trim();
-  //       let noofitem=result.substr(1, 1);
-  //       if(noofitem ==2){
-  //         let pnr=result.substr(23, 7);
-  //         tkt1=result.split('/')[0]
-  //     transit=result.substr(23, 7);
-  //     seat=result.substr(23, 7);
-  //       }
-  
-  //       first=result.substr(23, 7);
-  //       last=result.substr(23, 7);
-  //       pnr=result.substr(23, 7);
-  //       from=result.substr(23, 7);
-  //       to=result.substr(23, 7);
-  // carrier=result.substr(23, 7);
-  // cabin=result.substr(23, 7);
-  // flight=result.substr(23, 7);
-  // date=result.substr(23, 7);
+
+    //   let name=result.substr(2, 20).trim();
+    //       let noofitem=result.substr(1, 1);
+    //       if(noofitem ==2){
+    //         let pnr=result.substr(23, 7);
+    //         tkt1=result.split('/')[0]
+    //     transit=result.substr(23, 7);
+    //     seat=result.substr(23, 7);
+    //       }
+
+    //       first=result.substr(23, 7);
+    //       last=result.substr(23, 7);
+    //       pnr=result.substr(23, 7);
+    //       from=result.substr(23, 7);
+    //       to=result.substr(23, 7);
+    // carrier=result.substr(23, 7);
+    // cabin=result.substr(23, 7);
+    // flight=result.substr(23, 7);
+    // date=result.substr(23, 7);
 
     // let name=result.substr(2, 20).trim();
     //     let noofitem=result.substr(1, 1);
@@ -139,7 +139,7 @@ $(function () {
     //     }
     //     $("#inputLastname").val(name.split('/')[0]);
     //     $("#inputFirstname").val(name.split('/')[1]);
-   
+
     //     $("#inputPnr").val(result.substr(23, 7));
     //     $("#inputDeparture").val(result.substr(30, 3));
     //      $("#inputArrival").val(result.substr(33, 3));
@@ -148,82 +148,98 @@ $(function () {
     //     //  date=result.substr(44, 3);
     //      $("#cabin").val(result.substr(47, 1));
     //      $("#inputSeat").val(result.substr(48, 4).replace(/^0+/, ''));
-         
-   
-   
-   
-   j=1;
+
+
+
+
+    j = 1;
     $.ajax({
-          url: 'https://theloungeapp.azurewebsites.net/accessdata/barcode',
-          data: formData,
-          processData: false,
-          contentType: false,
-          mimeType: "multipart/form-data",
-          type: 'POST',
-        
-          success: function (data) {
+      url: 'https://theloungeapp.azurewebsites.net/accessdata/barcode',
+      data: formData,
+      processData: false,
+      contentType: false,
+      mimeType: "multipart/form-data",
+      type: 'POST',
 
-         console.log(data.ResultData)
-        let rd=JSON.parse(data);
-        result= rd.ResultData;
+      success: function (data) {
+
+        console.log(data.ResultData)
+        let rd = JSON.parse(data);
+        result = rd.ResultData;
         alert("result")
-        let name=result.substr(2, 20).trim();
-        let noofitem=result.substr(1, 1);
-      let pnr=result.substr(23, 7);
+        let name = result.substr(2, 20).trim();
+        let noofitem = result.substr(1, 1);
+        let pnr = result.substr(23, 7);
+        document.getElementById("submit").disabled = false;
+        if (noofitem == 2) {
+          flight1 = result.split(pnr)[1];
+          flight2 = result.split(pnr)[2];
 
-        if(noofitem ==2){
-flight1=result.split(pnr)[1];
-flight2=result.split(pnr)[2];
+          $("#inputLastname").val(name.split('/')[0]);
+          $("#inputFirstname").val(name.split('/')[1]);
+          $("#inputPnr").val(result.substr(23, 7));
 
-$("#inputLastname").val(name.split('/')[0]);
-$("#inputFirstname").val(name.split('/')[1]);
-$("#inputDeparture").val(result.substr(30, 3));
-$("#inputArrival").val(result.substr(33, 3));
- $("#inputTransit").val(result.substr(33, 3));
-        document.getElementById("seat2").style.display = "block";
-        $("#inputSeat2").val(result.substr(48, 4).replace(/^0+/, ''));
-         //  carrier
-         $("#inputFFT").val(result.substr(36, 3).trim());
-         $("#inputFlight").val(result.substr(39, 5).trim().replace(/^0+/, ''));
-        //  date=result.substr(44, 3);
-        // cabin
-         $("#cabin").val(result.substr(47, 1));
-         $("#inputSeat").val(result.substr(48, 4).replace(/^0+/, ''));
+          $("#inputDeparture").val(result.substr(30, 3));
+          $("#inputTransit").val(result.substr(33, 3));
+
+          $("#inputArrival").val(flight2.substr(3, 3));
+          document.getElementById("seat2").style.display = "block";
+          $("#inputSeat2").val(flight2.substr(18, 4).replace(/^0+/, ''));
+          //  carrier
+          $("#inputFFT").val(result.substr(36, 3).trim());
+          $("#inputFlight").val(result.substr(39, 5).trim().replace(/^0+/, ''));
+        let   date=result.substr(44, 3);
+         let  day=moment().dayOfYear(date);
+         $('#calenderstart span').html(day.format('DD/MM/YYYY'));
+         var temp1 = day.format('MM-DD-YYYY');
+         var temp2 = new Date(temp1);
+         var startDt = temp2.toISOString();
+         document.querySelector('#datestartiso').value = startDt;
        
+           console.log(date, "date");
+          // cabin
+          $("#cabin").val(result.substr(47, 1));
+          $("#inputSeat").val(result.substr(48, 4).replace(/^0+/, ''));
+
+        }
+
+        else 
+        {
+          document.getElementById("seat2").style.display = "none";
+          $("#inputLastname").val(name.split('/')[0]);
+          $("#inputFirstname").val(name.split('/')[1]);
+          $("#inputPnr").val(result.substr(23, 7));
+          $("#inputDeparture").val(result.substr(30, 3));
+          $("#inputArrival").val(result.substr(33, 3));
+          //  carrier
+          $("#inputFFT").val(result.substr(36, 3).trim());
+          $("#inputFlight").val(result.substr(39, 5).trim().replace(/^0+/, ''));
+          //  date=result.substr(44, 3);
+          // cabin
+          $("#cabin").val(result.substr(47, 1));
+          $("#inputSeat").val(result.substr(48, 4).replace(/^0+/, ''));
+          $("#inputFFTN").val(result.substr(137, 16));
+          //  carrier 2
+
+          let   date=result.substr(44, 3);
+          let  day=moment().dayOfYear(date);
+          $('#calenderstart span').html(day.format('DD/MM/YYYY'));
+          var temp1 = day.format('MM-DD-YYYY');
+          var temp2 = new Date(temp1);
+          var startDt = temp2.toISOString();
+          document.querySelector('#datestartiso').value = startDt;
+          c = result.substr(131, 3);
+          ffairline = result.substr(134, 3);
+          ffnno = result.substr(137, 16);
+          console.log(c, ffairline, ffnno, "resulr");
+          scannedprim = true;
+        }
+      },
+      error: function (xhr, textStatus, error) {
+        alert("error2 " + xhr.responseText);
       }
-
-else{
-  document.getElementById("seat2").style.display = "none";
-        $("#inputLastname").val(name.split('/')[0]);
-        $("#inputFirstname").val(name.split('/')[1]);
-        $("#inputPnr").val(result.substr(23, 7));
-        $("#inputDeparture").val(result.substr(30, 3));
-         $("#inputArrival").val(result.substr(33, 3));
-        //  carrier
-         $("#inputFFT").val(result.substr(36, 3).trim());
-         $("#inputFlight").val(result.substr(39, 5).trim().replace(/^0+/, ''));
-        //  date=result.substr(44, 3);
-        // cabin
-         $("#cabin").val(result.substr(47, 1));
-         $("#inputSeat").val(result.substr(48, 4).replace(/^0+/, ''));
-         $("#inputFFTN").val(result.substr(137, 16));
-         inputFFTN
-
-        //  carrier 2
-        c=result.substr(131, 3);
-        ffairline=result.substr(134, 3);
-        ffnno=result.substr(137, 16);
-        console.log(c,ffairline,ffnno,"resulr")
-}
-          },
-          error: function (xhr, textStatus, error) {
-            alert("error2 "+xhr.responseText)
-          }
-        });
-    
-    
+    });
   });
-
 });
 
 function contactChange(input) {
@@ -329,8 +345,9 @@ function Validatecarrier() {
   jsoninput.Lounge = lounge;
   id = "1234567891234567";
   $.ajax({
-    url:
-      "https://theloungeapp.azurewebsites.net/frequentflyer/" + id + "/benefit",
+    // url:
+    //   "https://theloungeapp.azurewebsites.net/frequentflyer/" + id + "/benefit",
+      url:"https://4c3c906375c6.ngrok.io/frequentflyer/" + id + "/benefit",
     type: "POST",
 
     data: JSON.stringify(jsoninput),
@@ -344,7 +361,7 @@ function Validatecarrier() {
       var noofguestloggedin = result.ResultData.AccompanyingGuestLogs.length;
       var noofactualusers = guest - noofguestloggedin;
       var k = noofactualusers + 1;
-
+      $("#userlist").empty();
       for (i = 1; i <= noofactualusers; i++) {
         $("#userlist").append(
           "<div class='form-group row'><div class='col-sm-4'>" +
@@ -435,25 +452,26 @@ function guestAdd() {
 function postdata(project) {
 
 
-  // $.ajax({
-  //   url: " https://theloungeapp.azurewebsites.net/accessdata/submit",
-  //   type: "POST",
+  $.ajax({
+    // url: " https://theloungeapp.azurewebsites.net/accessdata/submit",
+    url:"https://4c3c906375c6.ngrok.io/accessdata/submit",
+    type: "POST",
 
-  //   data: JSON.stringify(project),
-  //   contentType: "application/json",
-  //   success: function (result) {
-  //     window.location.href="login.html"
-  //   },
-  //   error: function (xhr, textStatus, error) {
-  //     console.log("error", error);
-  //     if (xhr.statusText == "Unauthorized" && xhr.status == 401) {
-  //       localStorage.removeItem(accessToken);
-  //       location.removeItem(graphToken);
-  //       document.getElementById("errmsg").innerText =
-  //         "Authorization token has expired. Please login the Application";
-  //     }
-  //   },
-  // });
+    data: JSON.stringify(project),
+    contentType: "application/json",
+    success: function (result) {
+      window.location.href = "login.html"
+    },
+    error: function (xhr, textStatus, error) {
+      console.log("error", error);
+      if (xhr.statusText == "Unauthorized" && xhr.status == 401) {
+        localStorage.removeItem(accessToken);
+        location.removeItem(graphToken);
+        document.getElementById("errmsg").innerText =
+          "Authorization token has expired. Please login the Application";
+      }
+    },
+  });
 
 
 }

@@ -11,6 +11,7 @@ $(document).ready(function () {
         }
       });
 });
+
 function submit(){
     var lounge=$('#selectid').val();
     var uri_enc = encodeURIComponent(lounge);
