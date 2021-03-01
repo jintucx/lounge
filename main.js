@@ -106,53 +106,6 @@ $(function () {
     let photoupload = document.getElementById("upload").files[0];
     var formData = new FormData();
     formData.append("file", photoupload);
-
-
-    // result="M2SMITH/RICHARD KBWXGA YVRYYZK0 0720 087Y004A0001 14A>3181OR0087BK0 29 01 K0 4312637 KBWXGA YYZMIAK0 1140 088Y004A0001 12929 01 K0 4312637";
-
-    //   let name=result.substr(2, 20).trim();
-    //       let noofitem=result.substr(1, 1);
-    //       if(noofitem ==2){
-    //         let pnr=result.substr(23, 7);
-    //         tkt1=result.split('/')[0]
-    //     transit=result.substr(23, 7);
-    //     seat=result.substr(23, 7);
-    //       }
-
-    //       first=result.substr(23, 7);
-    //       last=result.substr(23, 7);
-    //       pnr=result.substr(23, 7);
-    //       from=result.substr(23, 7);
-    //       to=result.substr(23, 7);
-    // carrier=result.substr(23, 7);
-    // cabin=result.substr(23, 7);
-    // flight=result.substr(23, 7);
-    // date=result.substr(23, 7);
-
-    // let name=result.substr(2, 20).trim();
-    //     let noofitem=result.substr(1, 1);
-    //     if(noofitem ==2){
-    //       let pnr=result.substr(23, 7);
-    //       tkt
-    //     $("#inputTransit").val();
-    //     $("#inputSeat2").val();
-    //     }
-    //     $("#inputLastname").val(name.split('/')[0]);
-    //     $("#inputFirstname").val(name.split('/')[1]);
-
-    //     $("#inputPnr").val(result.substr(23, 7));
-    //     $("#inputDeparture").val(result.substr(30, 3));
-    //      $("#inputArrival").val(result.substr(33, 3));
-    //      $("#inputFFT").val(result.substr(36, 3).trim());
-    //      $("#inputFlight").val(result.substr(39, 5).trim().replace(/^0+/, ''));
-    //     //  date=result.substr(44, 3);
-    //      $("#cabin").val(result.substr(47, 1));
-    //      $("#inputSeat").val(result.substr(48, 4).replace(/^0+/, ''));
-
-
-
-
-    j = 1;
     $.ajax({
       url: 'https://theloungeapp.azurewebsites.net/accessdata/barcode',
       data: formData,
@@ -343,7 +296,7 @@ function Validatecarrier() {
   var jsoninput = {};
   jsoninput.Carrier = $("#inputFFT").val();
   jsoninput.Lounge = lounge;
-  id = "1234567891234567";
+
   $.ajax({
     // url:
     //   "https://theloungeapp.azurewebsites.net/frequentflyer/" + id + "/benefit",

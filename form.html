@@ -34,16 +34,10 @@
   <div class="maincontainer">
     <div class="container p-3">
       <div class="formdiv" id="mainformdiv" >
-        <!-- <div style="margin-top: 10px;text-align: right;">
-          <button type="button" class="btn btn-scan" data-toggle='modal'
-              onclick="thisFileUpload()">Scan</button>
-          <input id="upload" type="file" accept="image/*;capture=camera" style="display:none;">
-      </div> -->
+       
       <div class="goback form-group row ">
         <div class="" style="width: 50%;">
         <div class="gobacktxt " >
-          <!-- <label class="cameraButton text-center"  onclick="goLounge()">Back to Lounge
-          </label> -->
           <div style="margin-top: 10px;text-align: left;">
             <button type="button" class="btn btn-scan" data-toggle='modal'
                 onclick="goLounge()">Back to Lounge</button>
@@ -147,15 +141,7 @@
               </div>
             </div>
             <div id="userlist"></div>
-            <!-- <div class="form-group row">
-              <div class="col-sm-4">
-
-                <button type="button" id="guest1" class="btn form-control validatebtn" onclick="guestAdd()">Add Guest
-                  1</button>
-              </div>
-              <div class="col-sm-4 ">Please add a guest</div>
-
-            </div> -->
+          
             
           </div>
           <div class="form-group row">
@@ -196,18 +182,20 @@
   <div class="goback form-group row ">
     <div class="" style="width: 50%;">
     <div class="gobacktxt " >
-      <label class="cameraButton text-center"  onclick="backGuest()">Back
-        
-      </label>
+      <div style="margin-top: 10px;text-align: left;">
+        <button type="button" class="btn btn-scan" data-toggle='modal'
+            onclick="backGuest()">Back</button>
+       
+    </div>
     </div>
     </div>
     <div class="" style="width: 50%;">
       <div class="gobacktxt scantxt text-right "  >
-      
-      
-        <label class="cameraButton text-center">Scan
-          <input id="myFileInput" type="file" accept="image/*;capture=camera" style='display: none;'>
-        </label>
+        <div style="margin-top: 10px;text-align: right;">
+          <button type="button" class="btn btn-scan" data-toggle='modal'
+              onclick="fileUpload()">Scan</button>
+          <input id="myFileInput" type="file" accept="image/*;capture=camera" style="display:none;">
+      </div>
       </div>
       </div>
   </div>
