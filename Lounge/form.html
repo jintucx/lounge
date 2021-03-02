@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]><html class="no-js lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <title>The Lounge Suite</title>
+  <meta name="description" content="Authentication">
+  <!-- Mobile Specific Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://statics.teams.microsoft.com/sdk/v1.5.2/js/MicrosoftTeams.min.js"
+    crossorigin="anonymous"></script>
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="tel.js"></script>
+  <!-- <script src="guest.js"></script> -->
+  <!-- <script src="main.js"></script> -->
+  <script src="mainpage.js"></script>
+  <script src="mainValidation.js"></script>
+
+  <!-- for guset users -->
+  <script src="guestpage.js"></script>
+  <script src="guestValidation.js"></script>
+  <link rel="stylesheet" href="tel.css">
+</head>
+
+<body>
+  <div class="maincontainer">
+    <div class="container p-3" id="main">
+      <div class="formdiv" id="mainformdiv">
+
+        <div class="goback form-group row ">
+          <div class="" style="width: 30%;">
+            <div class="gobacktxt ">
+              <div style="margin-top: 10px;text-align: left;">
+                <button type="button" class="btn btn-scan"   onclick="goLounge()">Back to
+                  Lounge</button>
+
+              </div>
+            </div>
+          </div>
+          <div class="" style="width: 50%;">
+            <div class="gobacktxt ">
+              <div style="margin-top: 10px;text-align: left;">
+                <p class="textheading">Please scan Boarding Pass Barcode</p>
+
+              </div>
+            </div>
+          </div>
+          <div class="" style="width: 20%;">
+            <div class="gobacktxt scantxt text-right ">
+              <div style="margin-top: 10px;text-align: right;">
+                <button type="button" class="btn btn-scan"  onclick="thisFileUpload()">Scan</button>
+                <input id="upload" type="file" accept="image/*;capture=camera" style="display:none;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form class="formclass" id="mainform">
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <label for="inputLastname">Last Name*</label>
+              <input type="text" class="form-control" style='text-transform: uppercase;' id="inputLastname"
+                placeholder="Last name" onblur="getlastName(this)" required>
+            </div>
+            <div class="col-sm-6">
+              <label for="inputFirstname">First Name*</label>
+              <input type="text" class="form-control" style='text-transform: uppercase;' id="inputFirstname"
+                placeholder="First name" onblur="getfirstName(this)" required>
+            </div>
+            <div class="col-sm-6">
+              <label for="inputFlight">Flight #</label>
+              <input class="form-control" id="inputFlight" onkeypress="return isNumberKey(event)" type="text"
+                placeholder="0123">
+            </div>
+            <div class="col-sm-6">
+              <label for="inputPnr">PNR*</label>
+              <input type="text" class="form-control" id="inputPnr" placeholder="PNR" onblur="getPNR(this)" required>
+            </div>
+            <div class="col-sm-6">
+              <label for="inputDeparture">Departure</label>
+              <input type="text" class="form-control" id="inputDeparture" placeholder="XXX">
+            </div>
+            <div class="col-sm-6">
+              <label for="inputArrival">Arrival</label>
+              <input type="text" class="form-control" id="inputArrival" placeholder="XXX">
+            </div>
+            <div class="col-sm-6">
+              <label for="inputTransit">Transit</label>
+              <input type="text" class="form-control" id="inputTransit" onblur="transitChange(this)" placeholder="XXX">
+            </div>
+            <div class="col-sm-6">
+              <label for="inputcabin">Cabin*</label>
+              <select class="selectpicker form-control" id='selectid'>
+                <option value="">Select</option>
+                <option value="F">F</option>
+                <option value="J">J</option>
+                <option value="Y">Y</option>
+              </select>
+              <!-- <select name="inputcabin" id="inputcabin" class="form-control selectpicker">
+               
+              </select> -->
+            </div>
+            <div class="col-sm-6">
+              <label for="inputSeat">Seat</label>
+              <input type="text" class="form-control" id="inputSeat" placeholder="24A">
+            </div>
+            <div class="col-sm-6" id="seat2" style="display: none;">
+              <label for="inputSeat2">2nd Seat (Transit)</label>
+              <input type="text" class="form-control" id="inputSeat2" placeholder="34A">
+            </div>
+            <div class="col-sm-6">
+              <label for="inputDate">Date</label>
+              <p id='datestartiso' style="display: none;"></p>
+              <input id="datepick" class="form-control" placeholder="mm/dd/yyyy">
+            </div>
+            <div class="col-sm-6">
+              <label for="inputFFT">Carrier*</label>
+              <select name="FFT" id="inputFFT" class="form-control carrier">
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-8">
+              <label for="inputFFTN">Frequent-Flyer Member Number</label>
+              <input class="form-control" id="inputFFTN" onkeypress="return isNumberKey(event)" type="text"
+                placeholder="123">
+            </div>
+            <div class="col-sm-4 validatediv">
+              <label style="color:transparent">.</label>
+              <button type="button" id="validatebtn" class="btn form-control validatebtn" disabled
+                onclick="Validatecarrier()">Validate</button>
+            </div>
+          </div>
+          <!-- <div id="guestrow" > -->
+          <div id="guestrow" style="display:none">
+            <div class="row">
+              <div class="col-sm-8">
+                <label id="tier" style="text-transform: uppercase;"></label>
+              </div>
+            </div>
+            <div id="userlist"></div>
+
+
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-6" style="overflow: hidden;">
+              <label for="inputPhone">Contact Number</label>
+              <input type="tel" class="form-control" id="inputPhone" onblur="contactChange(this)">
+              <p id='phoneerrmsg' class="errmsg"></p>
+            </div>
+
+
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="inputComments" style="margin-top: 0px;">Comments</label>
+              <input type="text" style="height: 4rem;" class="form-control" id="inputComments">
+              <p id='error' class="errmsg"></p>
+            </div>
+          </div>
+          <div class="form-group row submitform" style="margin-top:1.3rem;">
+            <div class="col-sm-3">
+
+              <button type="button" id="submit" class="btn submitbtn" disabled
+                onclick="submitForm(event)">Submit</button>
+            </div>
+            <div class="col-sm-3">
+
+              <button type="reset" id="reset" class="btn resetbtn" onclick="resetForm()">Reset</button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+      <!-- guest screeen -->
+
+      <div class="formdiv" id="guestdiv" style="display:none ;">
+        <div class="goback form-group row ">
+          <div class="" style="width: 30%;">
+            <div class="gobacktxt ">
+              <div style="margin-top: 10px;text-align: left;">
+                <button type="button" class="btn btn-scan" data-toggle='modal' onclick="backGuest()">Back</button>
+
+              </div>
+            </div>
+          </div>
+          <div class="" style="width: 50%;">
+            <div class="gobacktxt ">
+              <div style="margin-top: 10px;text-align: left;">
+                <p class="textheading">Guest Details</p>
+
+              </div>
+            </div>
+          </div>
+          <div class="" style="width: 20%;">
+            <div class="gobacktxt scantxt text-right ">
+              <div style="margin-top: 10px;text-align: right;">
+                <button type="button" class="btn btn-scan" data-toggle='modal' onclick="fileUpload()">Scan</button>
+                <input id="myFileInput" type="file" accept="image/*;capture=camera" style="display:none;">
+              </div>
+            </div>
+          </div>
+        </div>
+        <form class="formclass" id="guestform">
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <label for="lastName">Last Name*</label>
+              <input type="text" class="form-control" style='text-transform: uppercase;' id="lastName"
+                placeholder="Last name" onblur="getlastNameguest(this)" required>
+            </div>
+            <div class="col-sm-6">
+              <label for="firstName">First Name*</label>
+              <input type="text" class="form-control" style='text-transform: uppercase;' id="firstName"
+                placeholder="First name" onblur="getfirstNameguest(this)" required>
+            </div>
+            <div class="col-sm-6">
+              <label for="flightNumber">Flight #</label>
+              <input class="form-control" id="flightNumber" onkeypress="return isNumberKey(event)" type="text"
+                placeholder="0123">
+            </div>
+            <div class="col-sm-6">
+              <label for="pnr">PNR*</label>
+              <input type="text" class="form-control" id="pnr" placeholder="PNR" onblur="getPNRguest(this)" required>
+            </div>
+            <div class="col-sm-6">
+              <label for="from">Departure</label>
+              <input type="text" class="form-control" id="from" placeholder="XXX">
+            </div>
+            <div class="col-sm-6">
+              <label for="to">Arrival</label>
+              <input type="text" class="form-control" id="to" placeholder="XXX">
+            </div>
+            <div class="col-sm-6">
+              <label for="transitguest">Transit</label>
+              <input type="text" class="form-control" id="transitguest" style='text-transform: uppercase;'
+                onblur="transitChangeguest(this)" placeholder="XXX">
+            </div>
+            <div class="col-sm-6">
+              <label for="cabinguest">Cabin</label>
+              <select name="cabin" id="cabinguest" class="form-control">
+                <option value="">Select</option>
+                <option value="F">F</option>
+                <option value="J">J</option>
+                <option value="Y">Y</option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label for="seatguest">Seat</label>
+              <input type="text" class="form-control" id="seatguest" placeholder="24A">
+            </div>
+            <div class="col-sm-6" id="seat2guest" style="display: none;">
+              <label for="transitSeatguest">2nd Seat (Transit)</label>
+              <input type="text" class="form-control" id="transitSeatguest" placeholder="34A">
+            </div>
+            <div class="col-sm-6">
+              <label for="flightDate">Date</label>
+              <!-- <input type="date" class="form-control" id="flightDate"> -->
+              <!-- <div id="calenderguest" class="calenderstart form-control">
+                <i class="fa fa-calendar"></i>&nbsp;
+                <span style="padding-right: 10px;"></span>
+
+                <p id='dateiso' style="display: none;"></p>
+              </div> -->
+              <p id='dateiso' style="display: none;"></p>
+              <input id="datepickguest" class="form-control" placeholder="mm/dd/yyyy">
+            </div>
+            <div class="col-sm-6">
+              <label for="carrierguest">Carrier</label>
+              <select name="FFT" id="carrierguest" class="form-control carrier">
+
+
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label for="frequentFlyerNumberguest">Frequent-Flyer Member Number</label>
+              <input class="form-control" id="frequentFlyerNumberguest" onkeypress="return isNumberKey(event)"
+                type="text" placeholder="123">
+            </div>
+            <div class="col-sm-6" style="overflow: hidden;">
+              <label for="phone">Contact Number</label>
+              <input type="tel" class="form-control" onblur="contactChangeguest(this)" id="phone">
+              <p id='phoneerrmsgguest' class="errmsg"></p>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-12">
+              <label for="commentsguest" style="margin-top: .1rem;">Comments</label>
+              <textarea class="form-control txtarea" id="commentsguest"></textarea>
+            </div>
+          </div>
+          <div class="form-group row submitform">
+            <div class="col-sm-3">
+              <button type="submit" id="submitguest" class="btn submitbtn" disabled
+                onclick="saveFormGuest(event)">Save</button>
+            </div>
+            <div class="col-sm-3">
+              <button type="reset" id="resetbtnguest" class="btn resetbtn" onclick="resetFormGuest()">Reset</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+
+    <div class="container p-3" id="loading" style="display: none;">
+      <div class="formdiv">
+        <div class="d-flex justify-content-center" style="min-height:90vh;">
+          <div class="spinner-border text-dark " style="width: 3rem; height: 3rem;    margin: auto;" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+</body>
+
+</html>

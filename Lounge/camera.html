@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Camera</title>
+</head>
+<script>
+  var myInput = document.getElementById('myFileInput');
+
+function sendPic() {
+    var file = myInput.files[0];
+alert("sf")
+    // Send file here either by adding it to a `FormData` object 
+    // and sending that via XHR, or by simply passing the file into 
+    // the `send` method of an XHR instance.
+}
+
+myInput.addEventListener('change', sendPic, false);
+</script>
+<body>
+  <input id="myFileInput" type="file" accept="image/*;capture=camera">
+</body>
+</html>

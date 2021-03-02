@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7 "> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]><html class="no-js lt-ie10"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <title>The Lounge Suite</title>
+  <meta name="description" content="Authentication">
+  <!-- Mobile Specific Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://statics.teams.microsoft.com/sdk/v1.5.2/js/MicrosoftTeams.min.js"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="login.js"></script>
+</head>
+
+<body>
+<div>
+
+
+  <div class="containerdiv formdiv" id="btnLogin" style="display:none;">
+    <div class="d-flex justify-content-center" style="min-height: 90vh;">
+    <div class="imgdiv" style="margin: auto;">
+        <div><img class="riselogo" src=""></div>
+        <div class="topbar"></div>
+        <div class="text lgtxt p3">
+            <h4>Welcome to Etihad Lounge</h4>
+        </div>
+        <!-- <img class="imgs" id="loginbtn" onclick="Login()" src="" alt="LOGIN"> -->
+        <button type="button" id="loginbtn" class="btn loungebtn"  onclick="Login()">Login</button>
+    </div>
+    </div>
+</div>
+<div class="container p-3" id="loading" style="display:none;">
+  <div class="formdiv">
+    <div class="d-flex justify-content-center" style="min-height: 500px;">
+      <div class="spinner-border text-dark " style="width: 3rem; height: 3rem;    margin: auto;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <div class="maincontainer" id='wholecontent'>
+    <div class="logodiv">
+    </div>
+    <div class="container">
+      <div class="discdiv">
+        <div class="section">
+          <div class="col-sm-12 text-center" style="padding-top:10px;">
+            <h2 style="color: #BD8B13;font-weight: 700;">The Lounge Suite</h2>
+          </div>
+          <div class=" text-left" style="padding:10px 30px;">
+            <div class="data-info">Complete lounge checklists, audits and reports as well as query and report lounge
+              access information at Etihad lounges based on loyalty programmes and booked cabins.
+            </div>
+          </div>
+          <div class="text-center btndiv">
+            <button  class=" centerbtn" >Opening Checklist</button>
+          </div>
+          <div class="text-center btndiv">
+            <button  class="centerbtn" >Cleaning and F&B Audit</button>
+          </div>
+          <div class="text-center btndiv">
+            <button  class=" centerbtn" >Shift Report</button>
+          </div>
+          <div class="text-center btndiv loungediv">
+            <button type="button" id="loungesubmit" class="btn loungebtn" disabled onclick="submit()">Lounge Access</button>
+          </div>
+          <div class="text-left selectdiv" >
+            <select class="selectpicker" id='selectid'>
+            </select>
+          </div>
+          <p id="emailmsg" class="text-center" style="padding-top:20px;"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
