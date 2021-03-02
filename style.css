@@ -1,6 +1,6 @@
 
   body {
-    background: url('images/bg1.jpg');
+    /* background: url('images/bg1.jpg'); */
     background-repeat: repeat-y;
     background-size: cover;
     background-color: #4E4C4A;
@@ -15,21 +15,11 @@
     margin: 20px 0px;
   }
 
- 
-
   @media (min-width: 992px) {
     .discdiv {
       width: 560px;
       float: right;
     }
-
-    
-  }
-
-  html,
-  body {
-    height: 100%;
-    margin: 0;
   }
 
   .logodiv {
@@ -90,13 +80,10 @@
     background-color: rgb(255 255 255 / 70%);
 }
 .formclass{
-  
     padding: 10px 20px 20px ;
-    
 }
 .formclass .form-control{
 color: black;
-
 }
 .validatebtn, .validatebtn:hover,.validatebtn:active,.validatebtn:focus,
 #userlist .validatebtn.form-control:disabled {
@@ -104,7 +91,6 @@ color: black;
     color: white !important;
     outline: none;
     box-shadow:none
-    
 }
 .validatediv .form-control:disabled,
 .validatediv .form-control:disabled:focus,
@@ -114,7 +100,7 @@ color: black;
     background: white !important;
     font-weight: 400;
 }
-/* // workaround */
+/* telephone */
 .intl-tel-input {
   display: table-cell;
 }
@@ -196,29 +182,11 @@ color: black;
  margin-right: 10px;
 }
 
-/* yuiop */
-
-label.cameraButton {
-  display: inline-block;
-  /* Styles to make it look like a button */
-  padding: 0px 14px 5px 14px;
-  border: 2px solid #FFF;
-  border-color: #EEE #CCC #CCC #EEE;
-  background-color: transparent;
-  cursor: pointer;
- max-width:70%;
- min-width: 50px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-top: .5rem;
-}
-
-/* Look like a clicked/depressed button */
-label.cameraButton:active {
-  border-color: #CCC #EEE #EEE #CCC;
-}
-
-/* This is the part that actually hides the 'Choose file' text box for camera inputs */
-label.cameraButton input[accept*="camera"] {
-  display: none;
-}
+ #loading{
+   margin-top: 3rem;
+ }
+ .textheading{
+   color: #ffffff;
+   font-size: 1.2rem;
+   padding: 4px 10px;
+ }

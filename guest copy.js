@@ -2,34 +2,15 @@ var phoneguest;
 var boolfirstname = false;
 var boollastname = false;
 var boolpnr = false;
-var boolguestphone = true;
 var scanned = false;
 var guestList = [];
 
 function fileUpload() {
   document.getElementById("myFileInput").click();
 };
- 
-$(document).ready(function() {
-	$('#datepickguest').datepicker({
-    minDate: '-1D',
-        maxDate: '+1D',
-        onSelect: function() { 
-          // var dateObject = $(this).datepicker('getDate'); 
-       let dateObject = $( "#datepickguest" ).datepicker({ dateFormat: 'yy-mm-dd' }).val();
-          document.querySelector('#dateiso').value =dateObject;
-          let temp = new Date(dateObject);
-          let startDt = temp.toISOString();
-  document.querySelector('#dateiso').value = startDt;
-         
-      }
-  })
-});
 
 $(function () {
   $("#myFileInput").change(function (e) {
-    document.getElementById("main").style.display = "none";
-    document.getElementById("loading").style.display = "block";
     let photoupload = document.getElementById("myFileInput").files[0];
     var formData = new FormData();
     formData.append("file", photoupload);
@@ -43,45 +24,45 @@ $(function () {
       type: 'POST',
 
       success: function (data) {
-        document.getElementById("main").style.display = "block";
-        document.getElementById("loading").style.display = "none";
+
         console.log(data.ResultData)
         let rd = JSON.parse(data);
         result = rd.ResultData;
-
+        alert("guetsresult")
         let name = result.substr(2, 20).trim();
         let noofitem = result.substr(1, 1);
         let pnr = result.substr(23, 7);
-        getpostapi("AccompanyingGuest",pnr);
-    
+        document.getElementById("submitguest").disabled = false;
         if (noofitem == 2) {
           flight1 = result.split(pnr)[1];
           flight2 = result.split(pnr)[2];
 
-          $("#lastName").val(name.split('/')[0]);
-          $("#firstName").val(name.split('/')[1]);
-          $("#pnr").val(result.substr(23, 7));
-          $("#from").val(result.substr(30, 3));
-          $("#transitguest").val(result.substr(33, 3));
+          $("#inputLastname").val(name.split('/')[0]);
+          $("#inputFirstname").val(name.split('/')[1]);
+          $("#inputPnr").val(result.substr(23, 7));
 
-          $("#to").val(flight2.substr(3, 3));
+          $("#inputDeparture").val(result.substr(30, 3));
+          $("#inputTransit").val(result.substr(33, 3));
+
+          $("#inputArrival").val(flight2.substr(3, 3));
           document.getElementById("seat2").style.display = "block";
-          $("#transitSeatguest").val(flight2.substr(18, 4).replace(/^0+/, ''));
+          $("#inputSeat2").val(flight2.substr(18, 4).replace(/^0+/, ''));
           //  carrier
-          $("#frequentFlyerNumberguest").val(result.substr(36, 3).trim());
-          $("#flightNumber").val(result.substr(39, 5).trim().replace(/^0+/, ''));
+          $("#inputFFT").val(result.substr(36, 3).trim());
+          $("#inputFlight").val(result.substr(39, 5).trim().replace(/^0+/, ''));
 
           let date = result.substr(44, 3);
           let day = moment().dayOfYear(date);
-         let temp1 = day.format('MM/DD/YYYY');
-         let  temp2 = new Date(temp1);
-         let  startDt = temp2.toISOString();
+          $('#calenderguest span').html(day.format('DD/MM/YYYY'));
+          var temp1 = day.format('MM-DD-YYYY');
+          var temp2 = new Date(temp1);
+          var startDt = temp2.toISOString();
           document.querySelector('#dateiso').value = startDt;
-          $("#datepickguest" ).datepicker({ dateFormat: 'yy-mm-dd' }).val(temp1)
-       
+
+          console.log(date, "date");
           // cabin
-          $("#cabinguest").val(result.substr(47, 1));
-          $("#seatguest").val(result.substr(48, 4).replace(/^0+/, ''));
+          $("#cabin").val(result.substr(47, 1));
+          $("#inputSeat").val(result.substr(48, 4).replace(/^0+/, ''));
           scanned = true;
         }
 
@@ -98,31 +79,26 @@ $(function () {
 
           let date = result.substr(44, 3);
           let day = moment().dayOfYear(date);
-          let temp1 = day.format('MM/DD/YYYY');
-          let  temp2 = new Date(temp1);
-          let  startDt = temp2.toISOString();
-           document.querySelector('#dateiso').value = startDt;
-           $("#datepickguest" ).datepicker({ dateFormat: 'yy-mm-dd' }).val(temp1)
+          $('#calenderguest span').html(day.format('DD/MM/YYYY'));
+          var temp1 = day.format('MM-DD-YYYY');
+          var temp2 = new Date(temp1);
+          var startDt = temp2.toISOString();
+          document.querySelector('#dateiso').value = startDt;
 
-          $("#cabinguest").val(result.substr(47, 1));
+          $("#cabin").val(result.substr(47, 1));
           $("#seatguest").val(result.substr(48, 4).replace(/^0+/, ''));
+          $("#cabinguest").val(result.substr(137, 16));
 
           scanned = true;
         }
-        validationguest();
       },
       error: function (xhr, textStatus, error) {
-        document.getElementById("main").style.display = "block";
-        document.getElementById("loading").style.display = "none";
-     
-        alert(xhr.responseJSON.Error);
-        resetallvariables();
+        alert("error2 " + xhr.responseText);
       }
 
     });
-
+  });
     var input = document.querySelector("#phone");
-
     phoneguest = intlTelInput(input, {
       initialCountry: "ae",
       utilsScript: "util.js",
@@ -131,41 +107,52 @@ $(function () {
 
 
    
-    
-  });
 });
 
 
-function validationguest(){
-  if( $("#lastName").val() !==""){
-    boolfirstname =true;
-  }
-  if( $("#firstName").val() !==""){
-    boollastname =true;
-  }
-  if( $("#pnr").val() !==""){
-    boolpnr =true;
-  }
-  if (
-    boolfirstname && boollastname && boolpnr&&boolguestphone) {
-    document.getElementById("submitguest").disabled = false;
-  } else{
-    document.getElementById("submitguest").disabled = true;
-  }
-}
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  let currentdate = moment();
+  $('#calenderguest span').html(currentdate.format('DD/MM/YYYY'));
+  let currentdate1 = currentdate.format('MM-DD-YYYY');
+  let currentdate2 = new Date(currentdate1);
+  let startcurrentdate = currentdate2.toISOString();
+  document.querySelector('#dateiso').value = startcurrentdate;
+
+  let todayDateguest = new Date();
+  let maxDateguest = new Date();
+  let minDateguest = new Date();
+  maxDateguest.setDate(todayDateguest.getDate() + 1);
+  minDateguest.setDate(todayDateguest.getDate() - 1);
+
+  $('#calenderguest').daterangepicker({
+    singleDatePicker: true,
+    showDropdowns: true,
+    startDate: currentdate,
+    minDate: minDateguest,
+    maxDate: maxDateguest,
+  }, function (currentdate) {
+    $('#calenderguest span').html(currentdate.format('DD/MM/YYYY'));
+    var currentdate1 = currentdate.format('MM-DD-YYYY');
+    var currentdate2 = new Date(currentdate1);
+    var startcurrentdate = currentdate2.toISOString();
+    document.querySelector('#dateiso').value = startcurrentdate;
+
+
+  });
+
+});
+
 
   function contactChangeguest(input) {
     var numguest = phoneguest.getNumber();
     var validguest = phoneguest.isValidNumber();
-    document.getElementById("phoneerrmsgguest").innerText = "";
-    if (input.value) {
-      if (validguest) {
-        document.getElementById("phoneerrmsgguest").innerText = "";
-        $("#inputPhone").val(num);
-      } else {
-        boolguestphone = false;
-        document.getElementById("phoneerrmsgguest").innerText = "Invalid Phone Number";
-      }
+    if (validguest) {
+      document.getElementById("phoneerrmsgguest").innerText = "";
+      $("#phone").val(numguest)
+    } else {
+      document.getElementById("phoneerrmsgguest").innerText = "Invalid Phone Number";
     }
 
   }
@@ -181,10 +168,8 @@ function validationguest(){
   function getlastNameguest(input) {
     if (input.value !== "") {
       boollastname = true;
-      if (boolfirstname && boollastname && boolpnr &&boolguestphone) {
+      if (boolfirstname && boollastname && boolpnr) {
         document.getElementById("submitguest").disabled = false;
-      }else{
-        document.getElementById("submitguest").disabled = true;
       }
     }
   }
@@ -192,10 +177,8 @@ function validationguest(){
   function getfirstNameguest(input) {
     if (input.value !== "") {
       boolfirstname = true;
-      if (boolfirstname && boollastname && boolpnr &&boolguestphone) {
+      if (boolfirstname && boollastname && boolpnr) {
         document.getElementById("submitguest").disabled = false;
-      }else{
-        document.getElementById("submitguest").disabled = true;
       }
     }
   }
@@ -204,10 +187,8 @@ function validationguest(){
 
     if (input.value !== "") {
       boolpnr = true;
-      if (boolfirstname && boollastname && boolpnr &&boolguestphone) {
+      if (boolfirstname && boollastname && boolpnr) {
         document.getElementById("submitguest").disabled = false;
-      }else{
-        document.getElementById("submitguest").disabled = true;
       }
     }
   }
@@ -217,10 +198,9 @@ function validationguest(){
     document.getElementById("phoneerrmsgguest").innerText = "";
   }
 
-
-
   function saveFormGuest(event) {
     event.preventDefault();
+    
 
     var project = {};
     project.lastName = $("#lastName").val();
@@ -240,12 +220,13 @@ function validationguest(){
     project.comments = $("#commentsguest").val();
     project.phone = $("#phone").val();
     project.scanned = scanned;
-    if(project.lastName !=="" && project.firstName !=="" && project.pnr!=="" && project.flightDate !==""){
-    guestList.push(project);
+    if(project.lastName=="" ||project.firstName=="" ||project.pnr==""||project.flightDate==""){
+
     }
     else{
-alert("inavlid date")
+      guestList.push(project);
     }
+   
     resetallvariables();
     document.getElementById("guestdiv").style.display = "none";
     document.getElementById("mainformdiv").style.display = "block";
@@ -277,28 +258,4 @@ alert("inavlid date")
     document.getElementById("guestdiv").style.display = "none";
     document.getElementById("mainformdiv").style.display = "block";
     resetallvariables();
-  }
-
-  function getpostapi(usertype,pnrnumber){
-    data={};
-    data.GuestType=usertype;
-    data.PNR=pnrnumber;
-    $.ajax({
-      url: "https://theloungeapp.azurewebsites.net/accessdata/scanned",
-     type: "POST",
- 
-     data: JSON.stringify(data),
-     contentType: "application/json",
-     success: function (result) {
-     },
-     error: function (xhr, textStatus, error) {
-       console.log("error", error);
-      //  alert(xhr.responseJSON.Error)
-       if (xhr.statusText == "Unauthorized" && xhr.status == 401) {
-      
-         document.getElementById("errmsg").innerText =
-           "Authorization token has expired. Please login the Application";
-       }
-     },
-   });
   }

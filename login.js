@@ -1,6 +1,4 @@
 $(document).ready(function () {
-    getallLounges();
-
     $('#selectid').on('change', function(){
         var selected = $(this).val();
         if (selected !==""){
@@ -10,6 +8,18 @@ $(document).ready(function () {
             document.getElementById("loungesubmit").disabled=true;
         }
       });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    microsoftTeams.initialize();
+    let token =localStorage.getItem("accessToken");
+    if (token) {
+        getallLounges();
+    } else {
+        $("#btnLogin").show();
+        document.getElementById("wholecontent").style.display = 'none';
+        document.getElementById("loading").style.display = "none";
+    }
 });
 
 function submit(){
@@ -44,3 +54,33 @@ function submit(){
       }
   });
   }
+
+  function Login() {
+   
+    localStorage.setItem("accessToken", "token");
+    $("#btnLogin").hide();
+    document.getElementById("wholecontent").style.display = 'block';
+           document.getElementById("loading").style.display = "none";
+           getallLounges();
+    // microsoftTeams.authentication.authenticate({
+    //     url: window.location.origin + "/signin-simple-start.html",
+    //     width: 600,
+    //     height: 535,
+    //     successCallback: function (result) {
+    //         // console.log("result", result);
+    //         token = result.accessToken;
+    //        localStorage.setItem("accessToken", token)
+    //        getallLounges();
+    //         $("#btnLogin").hide();
+    //         document.getElementById("wholecontent").style.display = 'none';
+    //        document.getElementById("loading").style.display = "none";
+    //     },
+    //     failureCallback: function (reason) {
+    //         console.log("error", reason)
+    //         $("#btnLogin").show();
+    //         document.getElementById("wholecontent").style.display = 'none';
+    //         document.getElementById("loading").style.display = "none";
+    //         // handleAuthError(reason);
+    //     }
+    // });
+}
