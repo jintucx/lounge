@@ -8,7 +8,8 @@ var booleancabin = false;
 var scannedprim = false;
 var boolphone = true;
 var benefit = 1;
-// phone initialise
+// phone initialises
+
 $(function () {
   var inputPhone = document.querySelector("#inputPhone");
   phonenumber = intlTelInput(inputPhone, {
